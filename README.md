@@ -22,5 +22,10 @@ $ sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-
 $ sudo iptables -I INPUT 1 -p tcp --dport 8443 -j ACCEPT
 $ sudo iptables -I INPUT 1 -p tcp --dport 443 -j ACCEPT
 $ sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443
+$ cd provision
+$ echo 'variable "WEB_INSTANCE_AMI" { default = "'${AMI_ID_WEB}'" }' > amivar_web.tf
+$ aws s3 cp amivar_web.tf s3://node-aws-jenkins-terraform/amivar_web.tf
+$ terrafrom init
+$ terraform apply -auto-approve -var RDS_PASSWORD=$RDS_PASSWORD
 ```
 
